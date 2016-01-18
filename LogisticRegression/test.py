@@ -13,5 +13,13 @@ def weightsTest():
     print weights
 
 
+def plotTest():
+    featureDatas, classTypes = GradientRegression.loadDataSet()
+    weights = GradientRegression.getBestRegressionWeightsByGradientAscent(featureDatas, classTypes)
+    print weights
+    GradientRegression.plotBestRegressionLine(featureDatas, classTypes, weights)
+
+
 if __name__ == '__main__':
-    weightsTest()
+    # weightsTest()
+    plotTest()

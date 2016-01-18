@@ -18,7 +18,7 @@ def loadDataSet():
     allLines = datafile.readlines()
     for line in allLines:
         line = line.strip().split('\t')
-        featureDatas.append([1.0, float(line[0]), float(line[1])])
+        featureDatas.append([float(line[0]), float(line[1])])
         classTypes.append(int(line[2]))
 
     return featureDatas, classTypes
@@ -63,9 +63,10 @@ def getBestRegressionWeightsByGradientAscent(featureDatas, classTypes):
     return weights
 
 
-def plotBestRegressionLine(weights):
+def plotBestRegressionLine(featureDatas, classTypes, weights):
     """
     根据weights绘制最佳拟合曲线进行分类
     :param weights:
     :return:
     """
+    print np.shape(featureDatas)
