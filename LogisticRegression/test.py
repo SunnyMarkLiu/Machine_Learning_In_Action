@@ -12,5 +12,6 @@ def weightsTest():
     weights = GradientRegression.getBestRegressionWeightsByGradientAscent(featureDatas, classTypes)
     print weights
 
+
 if __name__ == '__main__':
     weightsTest()
