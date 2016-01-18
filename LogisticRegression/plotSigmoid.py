@@ -2,7 +2,7 @@
 # _*_ coding: utf-8 _*_
 
 """
-@author: MarkLiu
+@Author: MarkLiu
 """
 
 import matplotlib.pyplot as plt
