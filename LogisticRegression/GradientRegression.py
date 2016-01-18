@@ -65,7 +65,7 @@ def getBestRegressionWeightsByGradientAscent(featureDatas, classTypes):
 
 def plotBestRegressionLine(weights):
     """
-    根据weights绘制最佳拟合曲线
+    根据weights绘制最佳拟合曲线进行分类
     :param weights:
     :return:
     """
