@@ -1,10 +1,10 @@
 #!/usr/bin/python2.7
 # _*_ coding: utf-8 _*_
 
-import CreateDataSet
 import DecisionTrees
 import PlotDecisionTree
 
+# --------- DecisionTree整体测试 ---------#
 
 # dataSet, labels = CreateDataSet.createDataSet()
 # featureLabels = labels[:]
@@ -18,6 +18,7 @@ import PlotDecisionTree
 # print classType
 
 # --------- glass分类测试 ---------#
+
 
 def getGlassDataSet():
     classTypes = ['refractive_index', 'Sodium', 'Magnesium', 'Aluminum Silicon', ',Potassium', 'Calcium', 'Barium',
