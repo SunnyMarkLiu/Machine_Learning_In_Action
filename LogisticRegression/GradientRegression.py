@@ -61,3 +61,11 @@ def getBestRegressionWeightsByGradientAscent(featureDatas, classTypes):
         weights += delta * featureDatasMat.transpose() * error
 
     return weights
+
+
+def plotBestRegressionLine(weights):
+    """
+    绘制最佳拟合曲线
+    :param weights:
+    :return:
+    """
