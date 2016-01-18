@@ -23,6 +23,7 @@ def plotSigmoidTest():
     y = 1.0 / (1 + np.exp(-1 * num))  # 计算Sigmoid函数 y(x) = 1 / (1 + exp(-z))
     pltaxes.plot(num, y, color="blue", linewidth=2.0, linestyle="-")
     plt.xlim(-40, 40)
+    plt.savefig('plotSigmoidFunction.jpg')
     plt.show()
 
 
