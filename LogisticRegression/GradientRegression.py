@@ -57,7 +57,7 @@ def getBestRegressionWeightsByGradientAscent(featureDatas, classTypes):
         # 得到预测的误差，error为nx1的列向量
         error = classTypesMat - estimateClasses
         # 梯度上升调整系数，将每一组训练数据乘以对应的误差和步长，再加上原系数
-        # （这也就说明了featureDatasMat需要转置）
+        # 这也就说明了featureDatasMat需要转置
         weights += delta * featureDatasMat.transpose() * error
 
     return weights
