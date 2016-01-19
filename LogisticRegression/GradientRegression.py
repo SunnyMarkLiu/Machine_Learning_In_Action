@@ -116,18 +116,25 @@ def getBestWeightsByRandomGradientAscent(featureDatasList, classTypes, maxCycles
     :param maxCycles: 设置最大迭代次数，默认为1
     :return:
     """
+    import random
+
     featureDatas = np.array(featureDatasList)
     m, n = np.shape(featureDatas)
     # 梯度上升的步长
-    delta = 0.01
     weights = np.ones(n)
     for j in range(maxCycles):
+        featureIndexs = range(m)
+        featureLen = len(featureIndexs)
         for i in range(m):  # 对每个样本数据进行遍历，计算更新回归系数
+            delta = 4 / (1.0 + i + j) + 0.01
+            randIndex = int(random.uniform(0, featureLen))
             # 计算预测函数sigmod的输入：Z = W0X0 + W1X1 + ...
-            sigmodInput = sum(featureDatas[i] * weights)
+            sigmodInput = sum(featureDatas[randIndex] * weights)
             estimateClass = calculateSigmodEstimateClassType(sigmodInput)
-            error = classTypes[i] - estimateClass
-            weights += (error * delta) * featureDatas[i]
+            error = classTypes[randIndex] - estimateClass
+            # 更新回归系数
+            weights += (error * delta) * featureDatas[randIndex]
+            del(featureIndexs[randIndex])
 
     print weights, '--->', maxCycles
     return weights
@@ -145,7 +152,7 @@ def plotWeightsAstringency(featureDatas, classTypes):
     #
     # zhfont = mpl.font_manager.FontProperties(fname='/usr/share/fonts/truetype/arphic/ukai.ttc')
 
-    maxIteratCounts = 4000
+    maxIteratCounts = 1000
     num = range(maxIteratCounts)
     print 'num', num
     weightsMatrix = []
