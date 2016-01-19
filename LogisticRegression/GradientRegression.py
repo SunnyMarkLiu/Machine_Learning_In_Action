@@ -12,16 +12,16 @@ def loadDataSet():
     加载数据
     :return:
     """
-    featureDatas = []
+    featureDatasList = []
     classTypes = []
     datafile = open('dataset/testSet.data')
     allLines = datafile.readlines()
     for line in allLines:
         line = line.strip().split('\t')
-        featureDatas.append([1.0, float(line[0]), float(line[1])])
+        featureDatasList.append([1.0, float(line[0]), float(line[1])])
         classTypes.append(int(line[2]))
 
-    return featureDatas, classTypes
+    return featureDatasList, classTypes
 
 
 def calculateSigmodEstimateClassType(x):
@@ -105,4 +105,69 @@ def plotBestRegressionLine(featureDatas, classTypes, weights):
     plt.xlabel(u'特征X1', fontproperties=zhfont, size=18)
     plt.ylabel(u'特征X2', fontproperties=zhfont, size=18)
     plotaxes.legend((class0, class1), ('class0', 'class1'))
+    plt.show()
+
+
+def getBestWeightsByRandomGradientAscent(featureDatasList, classTypes, maxCycles=1):
+    """
+    随机梯度上升算法获取最佳回归系数
+    :param featureDatasList:
+    :param classTypes:
+    :param maxCycles: 设置最大迭代次数，默认为1
+    :return:
+    """
+    featureDatas = np.array(featureDatasList)
+    m, n = np.shape(featureDatas)
+    # 梯度上升的步长
+    delta = 0.01
+    weights = np.ones(n)
+    for j in range(maxCycles):
+        for i in range(m):  # 对每个样本数据进行遍历，计算更新回归系数
+            # 计算预测函数sigmod的输入：Z = W0X0 + W1X1 + ...
+            sigmodInput = sum(featureDatas[i] * weights)
+            estimateClass = calculateSigmodEstimateClassType(sigmodInput)
+            error = classTypes[i] - estimateClass
+            weights += (error * delta) * featureDatas[i]
+
+    print weights, '--->', maxCycles
+    return weights
+
+
+def plotWeightsAstringency(featureDatas, classTypes):
+    """
+    绘制采用随机梯度上升算法获取的回归参数随着迭代次数增加的收敛性
+    :param featureDatas:
+    :param classTypes:
+    :return:
+    """
+    import matplotlib.pyplot as plt
+    # import matplotlib as mpl
+    #
+    # zhfont = mpl.font_manager.FontProperties(fname='/usr/share/fonts/truetype/arphic/ukai.ttc')
+
+    maxIteratCounts = 4000
+    num = range(maxIteratCounts)
+    print 'num', num
+    weightsMatrix = []
+    for j in range(len(num)):
+        weights = getBestWeightsByRandomGradientAscent(featureDatas, classTypes, j)
+        weightsMatrix.append(weights.tolist())
+
+    figure = plt.figure(facecolor='white')
+    # 将array转换为ndarray
+    weightsMatrix = np.array(weightsMatrix)
+    print weightsMatrix
+    X0 = weightsMatrix[:, 0]
+    X1 = weightsMatrix[:, 1]
+    X2 = weightsMatrix[:, 2]
+    print X1
+    pltaxes0 = figure.add_subplot(311)
+    pltaxes0.plot(num, X0, color="blue", linewidth=2.0, linestyle="-")
+    pltaxes1 = figure.add_subplot(312)
+    pltaxes1.plot(num, X1, color="blue", linewidth=2.0, linestyle="-")
+    pltaxes2 = figure.add_subplot(313)
+    pltaxes2.plot(num, X2, color="blue", linewidth=2.0, linestyle="-")
+    # plt.title(u'随机梯度上升算法回归参数随迭代次数的收敛性', fontproperties=zhfont, size=15)
+    # plt.xlabel(u'迭代次数', fontproperties=zhfont, size=18)
+    # plt.ylabel(u'特征X1', fontproperties=zhfont, size=18)
     plt.show()

@@ -15,11 +15,28 @@ def weightsTest():
 
 def plotTest():
     featureDatas, classTypes = GradientRegression.loadDataSet()
-    weights = GradientRegression.getBestRegressionWeightsByGradientAscent(featureDatas, classTypes)
+    weights = GradientRegression.getBestRegressionWeightsByGradientAscent(
+            featureDatas, classTypes)
     print weights
-    GradientRegression.plotBestRegressionLine(featureDatas, classTypes, weights)
+    GradientRegression.plotBestRegressionLine(
+            featureDatas, classTypes, weights)
 
+
+def randomGradientAscentTest():
+    featureDatas, classTypes = GradientRegression.loadDataSet()
+    weights = GradientRegression.getBestWeightsByRandomGradientAscent(
+            featureDatas, classTypes, 50)
+    print weights
+    GradientRegression.plotBestRegressionLine(
+            featureDatas, classTypes, weights)
+
+
+def plotWeightsAstringencyTest():
+    featureDatas, classTypes = GradientRegression.loadDataSet()
+    GradientRegression.plotWeightsAstringency(featureDatas, classTypes)
 
 if __name__ == '__main__':
     # weightsTest()
-    plotTest()
+    # plotTest()
+    # randomGradientAscentTest()
+    plotWeightsAstringencyTest()
