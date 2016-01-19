@@ -18,7 +18,7 @@ def loadDataSet():
     allLines = datafile.readlines()
     for line in allLines:
         line = line.strip().split('\t')
-        featureDatas.append([float(line[0]), float(line[1])])
+        featureDatas.append([1.0, float(line[0]), float(line[1])])
         classTypes.append(int(line[2]))
 
     return featureDatas, classTypes
@@ -66,7 +66,36 @@ def getBestRegressionWeightsByGradientAscent(featureDatas, classTypes):
 def plotBestRegressionLine(featureDatas, classTypes, weights):
     """
     根据weights绘制最佳拟合曲线进行分类
+    :param classTypes:
+    :param featureDatas:
     :param weights:
     :return:
     """
-    print np.shape(featureDatas)
+    import matplotlib.pyplot as plt
+
+    class0X = []
+    class0Y = []
+    class1X = []
+    class1Y = []
+
+    m = np.shape(featureDatas)[0]
+    for i in range(m):
+        if classTypes[i] == 0:  # 如果是类别0
+            class0X.append(featureDatas[i][1])
+            class0Y.append(featureDatas[i][2])
+        else:  # 如果是类别1
+            class1X.append(featureDatas[i][1])
+            class1Y.append(featureDatas[i][2])
+
+    figure = plt.figure(facecolor='white')
+    plotaxes = figure.add_subplot(111)
+    # 绘制两种不同类型的数据
+    plotaxes.scatter(class0X, class0Y, marker='o', s=40, c='red')
+    plotaxes.scatter(class1X, class1Y, marker='s', s=20, c='green')
+    # 绘制决策边界
+    # z = W0X0 + W1X1 + W2X2 当Z=0时，sigmod行数的值为0.5,即判断类别的边界
+    # 所以求得X2 = （-W0 -W1X1）/ W2
+    X1 = np.linspace(-4, 4, 50, endpoint=True)
+    X2 = (-weights[0] - weights[1] * X1) / weights[2]
+    plotaxes.plot(X1, X2)
+    plt.show()
