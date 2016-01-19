@@ -72,6 +72,9 @@ def plotBestRegressionLine(featureDatas, classTypes, weights):
     :return:
     """
     import matplotlib.pyplot as plt
+    import matplotlib as mpl
+
+    zhfont = mpl.font_manager.FontProperties(fname='/usr/share/fonts/truetype/arphic/ukai.ttc')
 
     class0X = []
     class0Y = []
@@ -90,12 +93,16 @@ def plotBestRegressionLine(featureDatas, classTypes, weights):
     figure = plt.figure(facecolor='white')
     plotaxes = figure.add_subplot(111)
     # 绘制两种不同类型的数据
-    plotaxes.scatter(class0X, class0Y, marker='o', s=40, c='red')
-    plotaxes.scatter(class1X, class1Y, marker='s', s=20, c='green')
+    class0 = plotaxes.scatter(class0X, class0Y, marker='o', s=40, c='red')
+    class1 = plotaxes.scatter(class1X, class1Y, marker='s', s=20, c='green')
     # 绘制决策边界
     # z = W0X0 + W1X1 + W2X2 当Z=0时，sigmod行数的值为0.5,即判断类别的边界
     # 所以求得X2 = （-W0 -W1X1）/ W2
     X1 = np.linspace(-4, 4, 50, endpoint=True)
     X2 = (-weights[0] - weights[1] * X1) / weights[2]
     plotaxes.plot(X1, X2)
+    plt.title(u'梯度上升算法在迭代500次后绘制的最佳拟合曲线', fontproperties=zhfont, size=15)
+    plt.xlabel(u'特征X1', fontproperties=zhfont, size=18)
+    plt.ylabel(u'特征X2', fontproperties=zhfont, size=18)
+    plotaxes.legend((class0, class1), ('class0', 'class1'))
     plt.show()
