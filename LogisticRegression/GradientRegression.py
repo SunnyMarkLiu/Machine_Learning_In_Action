@@ -55,7 +55,7 @@ def getBestRegressionWeightsByGradientAscent(featureDatas, classTypes):
     maxCycles = 500  # 最大循环次数
     # 定义回归系数，n表示和特征数据的列数相等
     weights = np.ones((n, 1))
-    for i in range(maxCycles):
+    for i in xrange(maxCycles):
         # 按照找此系数乘以featureDatas，得到的估计classType为：
         estimateClasses = calculateSigmodEstimateClassType(featureDatasMat * weights)
         # 得到预测的误差，error为nx1的列向量
@@ -88,7 +88,7 @@ def plotBestRegressionLine(featureDatas, classTypes, weights):
     class1Y = []
 
     m = np.shape(featureDatas)[0]
-    for i in range(m):
+    for i in xrange(m):
         if classTypes[i] == 0:  # 如果是类别0
             class0X.append(featureDatas[i][1])
             class0Y.append(featureDatas[i][2])
@@ -133,9 +133,9 @@ def getBestWeightsByRandomGradientAscent(featureDatasList, classTypes, maxCycles
     weights = np.ones(n)
     # 保存每次循环计算的weights的结果
     weightsMatrix = []
-    for j in range(maxCycles):
+    for j in xrange(maxCycles):
         featureIndexs = range(m)
-        for i in range(m):  # 对每个样本数据进行遍历，计算更新回归系数
+        for i in xrange(m):  # 对每个样本数据进行遍历，计算更新回归系数
             delta = 1 / (1.0 + i + j) + 0.001
             randIndex = int(random.uniform(0, len(featureIndexs)))
             # 计算预测函数sigmod的输入：Z = W0X0 + W1X1 + ...
