@@ -38,10 +38,14 @@ def calculateSigmodEstimateClassType(x):
 def getBestRegressionWeightsByGradientAscent(featureDatas, classTypes):
     """
     梯度上升算法获取最佳回归系数
-    :param featureDatas:
-    :param classTypes:
+    :type featureDatas: list
+    :type classTypes: list
+    :param featureDatas: m x n的list，m个样本，n个特征
+    :param classTypes: m个样本的类别
     :return:
     """
+    print type(featureDatas), type(classTypes)
+    print np.shape(featureDatas), np.shape(classTypes)
     # 将python的list转换为NumPy的矩阵
     featureDatasMat = np.mat(featureDatas)
     classTypesMat = np.mat(classTypes).transpose()
@@ -66,8 +70,10 @@ def getBestRegressionWeightsByGradientAscent(featureDatas, classTypes):
 def plotBestRegressionLine(featureDatas, classTypes, weights):
     """
     根据weights绘制最佳拟合曲线进行分类
-    :param classTypes:
-    :param featureDatas:
+    :type featureDatas: list
+    :type classTypes: list
+    :param featureDatas: m x n的list，m个样本，n个特征
+    :param classTypes: m个样本的类别
     :param weights:
     :return:
     """
@@ -99,9 +105,10 @@ def plotBestRegressionLine(featureDatas, classTypes, weights):
     # z = W0X0 + W1X1 + W2X2 当Z=0时，sigmod行数的值为0.5,即判断类别的边界
     # 所以求得X2 = （-W0 -W1X1）/ W2
     X1 = np.linspace(-4, 4, 50, endpoint=True)
-    X2 = (-weights[0] - weights[1] * X1) / weights[2]
+    print 'weights:', weights
+    X2 = (-1 * weights[0] - weights[1] * X1) / weights[2]
     plotaxes.plot(X1, X2)
-    plt.title(u'梯度上升算法在迭代500次后绘制的最佳拟合曲线', fontproperties=zhfont, size=15)
+    plt.title(u'梯度上升算法/随机梯度上升算法绘制的最佳拟合曲线', fontproperties=zhfont, size=15)
     plt.xlabel(u'特征X1', fontproperties=zhfont, size=18)
     plt.ylabel(u'特征X2', fontproperties=zhfont, size=18)
     plotaxes.legend((class0, class1), ('class0', 'class1'))
@@ -110,7 +117,9 @@ def plotBestRegressionLine(featureDatas, classTypes, weights):
 
 def getBestWeightsByRandomGradientAscent(featureDatasList, classTypes, maxCycles=1):
     """
-    随机梯度上升算法获取最佳回归系数
+    改进后的随机梯度上升算法获取最佳回归系数
+    :type featureDatasList: list
+    :type classTypes: list
     :param featureDatasList:
     :param classTypes:
     :param maxCycles: 设置最大迭代次数，默认为1
@@ -127,7 +136,7 @@ def getBestWeightsByRandomGradientAscent(featureDatasList, classTypes, maxCycles
     for j in range(maxCycles):
         featureIndexs = range(m)
         for i in range(m):  # 对每个样本数据进行遍历，计算更新回归系数
-            delta = 4 / (1.0 + i + j) + 0.01
+            delta = 1 / (1.0 + i + j) + 0.001
             randIndex = int(random.uniform(0, len(featureIndexs)))
             # 计算预测函数sigmod的输入：Z = W0X0 + W1X1 + ...
             sigmodInput = sum(featureDatas[randIndex] * weights)
@@ -144,8 +153,10 @@ def getBestWeightsByRandomGradientAscent(featureDatasList, classTypes, maxCycles
 def plotWeightsAstringency(featureDatas, classTypes):
     """
     绘制采用随机梯度上升算法获取的回归参数随着迭代次数增加的收敛性
-    :param featureDatas:
-    :param classTypes:
+    :type featureDatas: list
+    :type classTypes: list
+    :param featureDatas: m x n的list，m个样本，n个特征
+    :param classTypes: m个样本的类别
     :return:
     """
     import matplotlib.pyplot as plt
@@ -174,3 +185,18 @@ def plotWeightsAstringency(featureDatas, classTypes):
     # plt.xlabel(u'迭代次数', fontproperties=zhfont, size=18)
     # plt.ylabel(u'特征X1', fontproperties=zhfont, size=18)
     plt.show()
+
+
+def logisticClassify(inputFeatures, trainWeights):
+    """
+    基于随机梯度上升的logistic回归分类器
+    :param inputFeatures:
+    :param trainWeights:
+    :return:
+    """
+    z = sum(inputFeatures * trainWeights)
+    prob = calculateSigmodEstimateClassType(z)
+    if prob > 0.5:
+        return 1.0
+    else:
+        return 0.0
