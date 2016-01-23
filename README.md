@@ -8,7 +8,7 @@
 * [DecisionTree：Done](https://www.github.com)
 * [LogisticRegression：Done](https://www.github.com)
 * [ NaiveBayesian：Done](https://www.github.com)
-* [ ...]
+* [ ...](https://www.github.com)
 
 ## License
 Copyright SunnyMarkLiu
