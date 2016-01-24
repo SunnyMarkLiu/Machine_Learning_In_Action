@@ -102,7 +102,7 @@ def trainNavieBayesian(trainVocabularyMattrix, trainClassTypes):
 def classifyNavieBayesian(trainWordsList, trainClassTypes, inputTestWords):
     """
     贝叶斯分类函数
-    :param trainWordsList: 训练的文档集合list
+    :param trainWordsList: 训练的文档集合，字符串类型的list
     :param trainClassTypes: 训练的文档集合所属类型list
     :type inputTestWords: list
     :param inputTestWords:
@@ -111,6 +111,7 @@ def classifyNavieBayesian(trainWordsList, trainClassTypes, inputTestWords):
     vocaList = createVocabularyList(trainWordsList)
     # 将feature对应的标记为0,1
     trainVocabularyMattrix = []
+    # 将训练的文档集合针对vocaList进行标记
     for words in trainWordsList:
         signedFeatureList = checkSignedFeatureList(vocaList, words)
         trainVocabularyMattrix.append(signedFeatureList)
