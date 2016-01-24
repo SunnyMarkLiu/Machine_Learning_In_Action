@@ -22,7 +22,7 @@ def loadDataSet():
     return vocaList, classTypes
 
 
-def createWordSet(wordsList):
+def createVocabularyList(wordsList):
     """
     创建不重复的词汇列表，返回list。
     其中该词汇列表，可以作为判断文本片段的特征
@@ -48,7 +48,7 @@ def checkSignedFeatureList(vocabularyList, inputWords):
     signedFeatureList = [0] * len(vocabularyList)
     for word in inputWords:
         if word in vocabularyList:  # 如果word在输入的文本向量中，则将对应的特征标记
-            signedFeatureList[vocabularyList.index(word)] = 1
+            signedFeatureList[vocabularyList.index(word)] += 1
 
     return signedFeatureList
 
@@ -99,22 +99,24 @@ def trainNavieBayesian(trainVocabularyMattrix, trainClassTypes):
     return p_WiBasedOnClass0, p_WiBasedOnClass1, pAbusive
 
 
-def classifyNavieBayesian(inputTestWords):
+def classifyNavieBayesian(trainWordsList, trainClassTypes, inputTestWords):
     """
     贝叶斯分类函数
+    :param trainWordsList: 训练的文档集合list
+    :param trainClassTypes: 训练的文档集合所属类型list
     :type inputTestWords: list
     :param inputTestWords:
     :return:
     """
-    wordsList, classTypes = loadDataSet()
-    vocaList = createWordSet(wordsList)
+    vocaList = createVocabularyList(trainWordsList)
     # 将feature对应的标记为0,1
     trainVocabularyMattrix = []
-    for words in wordsList:
+    for words in trainWordsList:
         signedFeatureList = checkSignedFeatureList(vocaList, words)
         trainVocabularyMattrix.append(signedFeatureList)
 
-    p_WiBasedOnClass0, p_WiBasedOnClass1, pAbusive = trainNavieBayesian(trainVocabularyMattrix, classTypes)
+    p_WiBasedOnClass0, p_WiBasedOnClass1, pAbusive = \
+        trainNavieBayesian(trainVocabularyMattrix, trainClassTypes)
 
     # 将inputTestWords文档字符串列表标记
     inputTestVec = checkSignedFeatureList(vocaList, inputTestWords)
