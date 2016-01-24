@@ -1,4 +1,4 @@
-# Machine_Learning_In_Action_Algorithms
+# Machine Learning Algorithms In_Action
 ![design pattern](http://s.qdcdn.com/cl/10190280,800,450.jpg)
 
 《Machine Learning In Action》Algorithms code by Python
