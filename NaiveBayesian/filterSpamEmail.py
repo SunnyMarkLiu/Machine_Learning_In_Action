@@ -61,20 +61,20 @@ def filterSpamEmail():
         randomIndex = int(random.uniform(0, len(initialDocList)))
         testDocClassList.append(classTypes[randomIndex])
         testDocList.append(initialDocList[randomIndex])
-        del(initialDocList[randomIndex])
-        del(classTypes[randomIndex])
+        del (initialDocList[randomIndex])
+        del (classTypes[randomIndex])
 
-    print 'testDocList:', len(testDocList)
-    print 'initialDocList:', len(initialDocList)
-    print 'testDocClassList:', len(testDocClassList)
-    print 'classTypes:', len(classTypes)
     errorCount = 0
     for i in range(len(testDocList)):
+        # 对给定的待测试的邮件进行分类
         classType = bayes.classifyNavieBayesian(
                 initialDocList, classTypes, testDocList[i])
         if classType != testDocClassList[i]:  # 预测的结果和实际的结果进行比较
+            print '分类错误的邮件：', testDocList[i], '\n属于', testDocClassList[i], \
+                '错误分类成了：', classType
             errorCount += 1
 
+    # 计算分类的误差
     print 'the error rate is :', float(errorCount) / len(testDocList)
 
 
