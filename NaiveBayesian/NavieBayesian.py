@@ -66,7 +66,6 @@ def trainNavieBayesian(trainVocabularyMattrix, trainClassTypes):
     numFeature = len(trainVocabularyMattrix[0])
     # 存在侮辱性文字的文本向量占训练数据的的概率
     pAbusive = sum(trainClassTypes) / float(trainCount)
-
     """
     计算P(Wi|C1)和P(Wi|C0)
     由于在词汇表中存在多种词汇，计算概率时，使用Numpy数组快速计算。
@@ -86,16 +85,16 @@ def trainNavieBayesian(trainVocabularyMattrix, trainClassTypes):
     p1Denom = 2.0
     for i in range(trainCount):  # 对每一篇训练文档
         if trainClassTypes[i] == 1:  # 如果此文档是侮辱性
-            class0FeatureNum += trainVocabularyMattrix[i]
-            p0Denom += sum(trainVocabularyMattrix[i])
-        else:
             class1FeatureNum += trainVocabularyMattrix[i]
             p1Denom += sum(trainVocabularyMattrix[i])
+        else:
+            class0FeatureNum += trainVocabularyMattrix[i]
+            p0Denom += sum(trainVocabularyMattrix[i])
 
     # P(Wi|C0)：p0条件下词汇出现的条件概率,取log避免数据过小相乘出现下溢出
     p_WiBasedOnClass0 = np.log(class0FeatureNum / p0Denom)
     # P(Wi|C1)：p1条件下词汇出现的条件概率
-    p_WiBasedOnClass1 = np.log(class0FeatureNum / p1Denom)
+    p_WiBasedOnClass1 = np.log(class1FeatureNum / p1Denom)
 
     return p_WiBasedOnClass0, p_WiBasedOnClass1, pAbusive
 
@@ -109,25 +108,20 @@ def classifyNavieBayesian(inputTestWords):
     """
     wordsList, classTypes = loadDataSet()
     vocaList = createWordSet(wordsList)
-    print 'vocaList:'
-    print vocaList
     # 将feature对应的标记为0,1
     trainVocabularyMattrix = []
     for words in wordsList:
-        trainVocabularyMattrix.append(checkSignedFeatureList(vocaList, words))
-    print 'trainVocabularyMattrix:'
-    print trainVocabularyMattrix
+        signedFeatureList = checkSignedFeatureList(vocaList, words)
+        trainVocabularyMattrix.append(signedFeatureList)
+
     p_WiBasedOnClass0, p_WiBasedOnClass1, pAbusive = trainNavieBayesian(trainVocabularyMattrix, classTypes)
 
     # 将inputTestWords文档字符串列表标记
     inputTestVec = checkSignedFeatureList(vocaList, inputTestWords)
-    print 'inputTestVec:'
-    print inputTestVec
+
     # 计算P(Ci|W)，W为向量。P(Ci|W)只需计算P(W|Ci)P(Ci)
     p1 = sum(inputTestVec * p_WiBasedOnClass1) + np.log(pAbusive)
-    print p1
     p0 = sum(inputTestVec * p_WiBasedOnClass0) + np.log(1 - pAbusive)
-    print p0
 
     if p1 > p0:
         return 1

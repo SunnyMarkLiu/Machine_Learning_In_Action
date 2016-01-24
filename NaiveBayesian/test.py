@@ -34,10 +34,10 @@ def trainNavieBayesianTest():
 def classifyNavieBayesianTest():
     inputTestWords = ['my', 'dog', 'has', 'flea', 'problems', 'help', 'please']
     result = bayes.classifyNavieBayesian(inputTestWords)
-    print result
-    inputTestWords2 = ['stupid', 'stupid', 'stupid', 'stupid', 'stupid', 'stupid', 'stupid', 'stupid']
+    print inputTestWords, ':', result
+    inputTestWords2 = ['love', 'stupid']
     result2 = bayes.classifyNavieBayesian(inputTestWords2)
-    print result2
+    print inputTestWords2, ':', result2
 
 if __name__ == '__main__':
     # vocaList = createWordSetTest()
