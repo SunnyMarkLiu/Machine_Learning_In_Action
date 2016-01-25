@@ -130,3 +130,36 @@ def classifyNavieBayesian(trainWordsList, trainClassTypes, inputTestWords):
         return 1
     else:
         return 0
+
+
+def classifyNavieBayesian2(vocaList, trainWordsList, trainClassTypes, inputTestWords):
+    """
+    贝叶斯分类函数2，传入词汇表vocaList，和原始的训练数据，以及测试数据
+    :param vocaList:
+    :param trainWordsList: 训练的文档集合，字符串类型的list
+    :param trainClassTypes: 训练的文档集合所属类型list
+    :type inputTestWords: list
+    :param inputTestWords:
+    :return:
+    """
+    # 将feature对应的标记为0,1
+    trainVocabularyMattrix = []
+    # 将训练的文档集合针对vocaList进行标记
+    for words in trainWordsList:
+        signedFeatureList = checkSignedFeatureList(vocaList, words)
+        trainVocabularyMattrix.append(signedFeatureList)
+
+    p_WiBasedOnClass0, p_WiBasedOnClass1, pAbusive = \
+        trainNavieBayesian(trainVocabularyMattrix, trainClassTypes)
+
+    # 将inputTestWords文档字符串列表标记
+    inputTestVec = checkSignedFeatureList(vocaList, inputTestWords)
+
+    # 计算P(Ci|W)，W为向量。P(Ci|W)只需计算P(W|Ci)P(Ci)
+    p1 = sum(inputTestVec * p_WiBasedOnClass1) + np.log(pAbusive)
+    p0 = sum(inputTestVec * p_WiBasedOnClass0) + np.log(1 - pAbusive)
+
+    if p1 > p0:
+        return p0, p1, 1
+    else:
+        return p0, p1, 0
