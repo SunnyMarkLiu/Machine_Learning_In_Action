@@ -7,8 +7,8 @@
 * [K-NearestNeighbour：Done](https://github.com/SunnyMarkLiu/Machine_Learning_In_Action_Algorithms/tree/master/K-NearestNeighbour)
 * [DecisionTree：Done](https://github.com/SunnyMarkLiu/Machine_Learning_In_Action_Algorithms/tree/master/DecisionTree)
 * [LogisticRegression：Done](https://github.com/SunnyMarkLiu/Machine_Learning_In_Action_Algorithms/tree/master/LogisticRegression)
-* [ NaiveBayesian：Done](https://github.com/SunnyMarkLiu/Machine_Learning_In_Action_Algorithms/tree/master/NaiveBayesian)
-* [ ...](https://www.github.com)
+* [NaiveBayesian：Done](https://github.com/SunnyMarkLiu/Machine_Learning_In_Action_Algorithms/tree/master/NaiveBayesian)
+* [SupportVectorMachines](https://github.com/SunnyMarkLiu/Machine_Learning_In_Action_Algorithms/tree/master/SupportVectorMachines)
 
 ## License
 Copyright SunnyMarkLiu
