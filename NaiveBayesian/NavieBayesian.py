@@ -56,6 +56,15 @@ def checkSignedFeatureList(vocabularyList, inputWords):
 def trainNavieBayesian(trainVocabularyMattrix, trainClassTypes):
     """
     Navie Bayesian分类器的训练函数
+    计算原理：书57页
+    假设某个体有n项特征Feature（F1,F2,...Fn），现有m个类别Categary的个体类别为
+    C1,C2，...Cn。则测试额个体是类别Ci的概率为条件概率：P(Ci|F1F2...Fn)=P(Ci|F-vector)
+                                    P(F1F2...Fn|Ci)*P(Ci)
+    由Bayes公式知：P(Ci|F1F2...Fn)= ——————————————————————————
+                                        P(F1F2...Fn)
+    求出每个类别的P(Ci|F1F2...Fn)，比较其大小，取概率最大的类别作为测试个体的类别。
+    由于P(F1F2...Fn)为公共的，所以只需比较P(F1F2...Fn|Ci)*P(Ci)
+    进一步简化，视Fi特征为相互独立，则简化为：P(F1|Ci)*P(F2|Ci)*...P(Fn|Ci)*P(Ci)
     :param trainVocabularyMattrix: 训练文本向量的集合
     :param trainClassTypes: 训练词汇的类别
     :return:
