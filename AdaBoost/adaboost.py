@@ -62,8 +62,8 @@ def buildDecisionStump(trainDataMatrix, trainClasses, D):
     for diem in range(n):
         # 计算训练数据集在该特征的最大值和最小值的差别，以及每次的步长
         featureDatas = trainDataMatrix[:, diem]
-        print "特征数据:", diem, ":", len(featureDatas)
-        print featureDatas
+        # print "特征数据:", diem, ":", len(featureDatas)
+        # print featureDatas
         valueMin = featureDatas.min()
         valueMax = featureDatas.max()
         stepSize = (valueMax - valueMin) / stepsNum
@@ -122,12 +122,12 @@ def adaboostTrainDecisionStump(trainDataMatrix, trainClasses, iteratorCount=40):
             buildDecisionStump(trainDataMatrix, trainClasses, D)
         # 计算当前分类结果的错误率，作为样本的权重alpha
 
-        alpha = 0.5 * np.log((1-minWeightedError) / max(minWeightedError, 1e-16))
+        alpha = 0.5 * np.log((1 - minWeightedError) / max(minWeightedError, 1e-16))
         # 保存当前决策树分类结果的权重
         bestDecisionStump['alpha'] = alpha
         bestDecisionStumps.append(bestDecisionStump)
 
-        print "本轮预测结果：", bestPredictValue.T
+        # print "本轮预测结果：", bestPredictValue.T
         # 根据前一轮预测获得的alpha结果权重更新样本的权重向量D
         # 前一轮预测结果正确的样本，减小其权重；预测结果错误的样本，增加其权重
         # 计算公式：
@@ -136,12 +136,12 @@ def adaboostTrainDecisionStump(trainDataMatrix, trainClasses, iteratorCount=40):
         # 前一轮预测结果错误：
         #   Di+1 = ( Di * exp(alpha) ) / sum(Di)
         print "alpha:", alpha
-        expon = np.multiply(-1*alpha*trainClasses.T, bestPredictValue)
+        expon = np.multiply(-1 * alpha * trainClasses.T, bestPredictValue)
         D = np.multiply(D, np.exp(expon)) / D.sum()
 
         # 加权预测结果
         finalPredictClass += alpha * bestPredictValue
-        print "加权预测结果:", finalPredictClass.T
+        # print "加权预测结果:", finalPredictClass.T
         # 加权后的预测结果错误的数目
         weightedErrors = np.multiply(np.sign(finalPredictClass) != trainClasses.T,
                                      np.ones((m, 1)))
@@ -164,14 +164,14 @@ def adaboostClassify(testDataMatrix, bestDecisionStumps):
     testDataMatrix = np.matrix(testDataMatrix)
     m = np.shape(testDataMatrix)[0]
     weightedForecastClasses = np.matrix(np.zeros((m, 1)))
-    for i in range(len(bestDecisionStumps)):    # 用每个决策树算法测试数据
+    for i in range(len(bestDecisionStumps)):  # 用每个决策树算法测试数据
         forecastClasses = simpleStumpClassify(testDataMatrix,
                                               bestDecisionStumps[i]['diem'],
                                               bestDecisionStumps[i]['threshValue'],
                                               bestDecisionStumps[i]['sepOperator'])
         # 计算加权后的类别
         weightedForecastClasses += bestDecisionStumps[i]['alpha'] * forecastClasses
-        print weightedForecastClasses
+        # print weightedForecastClasses
 
     confidence = calConfidence(weightedForecastClasses)
     return weightedForecastClasses, confidence

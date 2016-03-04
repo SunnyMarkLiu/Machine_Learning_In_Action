@@ -10,7 +10,7 @@ import numpy as np
 
 # 训练算法
 dataMatrix, classLabels = adaboost.loadSimpData()
-bestDecisionStumps = adaboost.adaboostTrainDecisionStump(dataMatrix, classLabels, 9)
+bestDecisionStumps = adaboost.adaboostTrainDecisionStump(dataMatrix, classLabels, 20)
 print bestDecisionStumps
 
 print "-------测试算法-------"

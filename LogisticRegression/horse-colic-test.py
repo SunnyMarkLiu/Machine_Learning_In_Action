@@ -8,8 +8,8 @@ import GradientRegression
 
 
 def colicTest():
-    frTrain = open('dataset/horseColicTraining.txt')
-    frTest = open('dataset/horseColicTest.txt')
+    frTrain = open('dataset/trainingDatas.txt')
+    frTest = open('dataset/testDatas.txt')
     trainingSet = []
     trainingLabels = []
     for line in frTrain.readlines():

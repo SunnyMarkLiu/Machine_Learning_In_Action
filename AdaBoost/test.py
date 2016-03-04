@@ -30,17 +30,15 @@ def loadDataSet(fileName):
 
 
 if __name__ == '__main__':
-    trainDatas, trainLabels = loadDataSet('dataset/horseColicTraining.txt')
+    trainDatas, trainLabels = loadDataSet('dataset/trainingDatas.txt')
     print np.shape(trainDatas)
     print trainDatas
     print np.shape(trainLabels)
     print trainLabels
 
     # 训练算法获得多个简单决策树分类器
-    bestDecisionStumps = adaboost.adaboostTrainDecisionStump(trainDatas, trainLabels, 10)
-    testDatas, testLabels = loadDataSet('dataset/horseColicTest.txt')
-    print len(testLabels), ",", len(testDatas)
-    print testLabels
+    bestDecisionStumps = adaboost.adaboostTrainDecisionStump(trainDatas, trainLabels, 40)
+    testDatas, testLabels = loadDataSet('dataset/testDatas.txt')
     # 返回预测结果
     weightedForecastClasses, confidence = \
         adaboost.adaboostClassify(testDatas, bestDecisionStumps)
@@ -48,8 +46,9 @@ if __name__ == '__main__':
     errorArr = np.matrix(np.zeros((len(testLabels), 1)))
     errorArr[np.sign(weightedForecastClasses) != np.matrix(testLabels).T] = 1
     print "errorArr:"
-    print errorArr
+    print errorArr.T
     print "分类的结果："
+    print "预测的类别：", np.sign(weightedForecastClasses).T
     print "测试数据共 %d 个" % len(testLabels)
     print "错误分类共 %d 个" % errorArr.sum()
     print "分类的错误率为：", 1.0 * errorArr.sum() / len(testLabels)
