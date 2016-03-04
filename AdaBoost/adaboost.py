@@ -33,7 +33,7 @@ def simpleStumpClassify(dataMatrix, dimen, threshValue, sepOperator):
     forecastClasses = np.ones((np.shape(dataMatrix)[0], 1))
     if sepOperator == 'lower_than':
         forecastClasses[dataMatrix[:, dimen] <= threshValue] = -1
-    if sepOperator == 'greater_than':
+    else:
         forecastClasses[dataMatrix[:, dimen] > threshValue] = -1
 
     return forecastClasses
@@ -55,9 +55,9 @@ def buildDecisionStump(trainDataMatrix, trainClasses, D):
     m, n = np.shape(trainDataMatrix)
     stepsNum = 10  # 在此特征上迭代10次
     # 保存最佳分类的加权错误
-    minWeightedError = np.inf   # 初始化设置加权分类错误率为正无穷
+    minWeightedError = np.inf   # 初始化设置加权分类错误率为正无穷,type为float
     bestDecisionStump = {}  # 保存最佳决策树
-    bestPredictValue = np.matrix(np.ones((m, 1)))   # 保存最佳分类结果
+    bestPredictValue = np.matrix(np.zeros((m, 1)))   # 保存最佳分类结果
     # 对数据集的所有样本的特征进行遍历，以便寻找最佳分类的特征
     for diem in range(n):
         # 计算训练数据集在该特征的最大值和最小值的差别，以及每次的步长
@@ -68,30 +68,30 @@ def buildDecisionStump(trainDataMatrix, trainClasses, D):
         for j in range(-1, stepsNum + 1):
             # 由于此简单决策树分类器是二类分类器，所以遍历大于、小于作为分类分界，
             # 如果类别多于两种，则需要修改
+            threshValue = valueMin + float(j) * stepSize
             for sepOperator in ['lower_than', 'greater_than']:
                 # 计算决策树在该特征分类的阈值
-                threshValue = valueMin + j * stepSize
                 # 按照此分类标准（第几个特征diem，阈值threshValue，操作符sepOperator）
                 # 分类的结果
-                predictValue = simpleStumpClassify(trainDataMatrix, diem,
-                                                   threshValue, sepOperator)
+                predictValues = simpleStumpClassify(trainDataMatrix, diem,
+                                                    threshValue, sepOperator)
                 # 用于标记分类错误的样本
-                errArr = np.matrix(np.ones((m, 1)))
-                errArr[predictValue == trainClasses] = 0
+                errArr = np.matrix(np.zeros((m, 1)))
+                errArr[predictValues != trainClasses] = 1
                 # 结合D的加权分类错误
                 # D本身为列向量
-                weightedError = D.T * errArr    # 矩阵相乘计算内积
+                weightedError = float(D.T * errArr)    # 矩阵相乘计算内积
 
                 # print '分类：从第 %d 个特征入手，阈值为 %.4f ， 操作符为 %s，分类的加权错误率为 %.4f' \
                 #       % (diem, threshValue, sepOperator, weightedError)
 
                 if weightedError < minWeightedError:
-                    minWeightedError = weightedError
+                    minWeightedError = float(weightedError)
                     # 保存最佳的决策树
                     bestDecisionStump['diem'] = diem
                     bestDecisionStump['threshValue'] = threshValue
                     bestDecisionStump['sepOperator'] = sepOperator
-                    bestPredictValue = predictValue.copy()
+                    bestPredictValue = predictValues.copy()
 
     return bestDecisionStump, minWeightedError, bestPredictValue
 
@@ -111,19 +111,20 @@ def adaboostTrainDecisionStump(trainDataMatrix, trainClasses, iteratorCount=40):
     # 训练数据集样本的权重初始化相等
     D = np.matrix(np.ones((m, 1)) / m)
     # 保存加权的最终预测结果
-    finalPredictClass = np.matrix(np.ones((m, 1)))
+    finalPredictClass = np.matrix(np.zeros((m, 1)))
     for i in range(0, iteratorCount):
         print '——————第 %d 轮训练——————' % i
-        print '权重D：', D
+        print '权重D：', D.T
         bestDecisionStump, minWeightedError, bestPredictValue = \
-            buildDecisionStump(trainDataMatrix, trainDataMatrix, D)
+            buildDecisionStump(trainDataMatrix, trainClasses, D)
         # 计算当前分类结果的错误率，作为样本的权重alpha
-        alpha = 0.5 * np.log((1-minWeightedError) / max(trainDataMatrix, 1e-16))
+
+        alpha = 0.5 * np.log((1-minWeightedError) / max(minWeightedError, 1e-16))
         # 保存当前决策树分类结果的权重
         bestDecisionStump['alpha'] = alpha
         bestDecisionStumps.append(bestDecisionStump)
 
-        print "本轮预测结果：", bestPredictValue
+        print "本轮预测结果：", bestPredictValue.T
         # 根据前一轮预测获得的alpha结果权重更新样本的权重向量D
         # 前一轮预测结果正确的样本，减小其权重；预测结果错误的样本，增加其权重
         # 计算公式：
@@ -131,12 +132,13 @@ def adaboostTrainDecisionStump(trainDataMatrix, trainClasses, iteratorCount=40):
         #   Di+1 = ( Di * exp(-alpha) ) / sum(Di)
         # 前一轮预测结果错误：
         #   Di+1 = ( Di * exp(alpha) ) / sum(Di)
+        print "alpha:", alpha
         expon = np.multiply(-1*alpha*trainClasses.T, bestPredictValue)
         D = np.multiply(D, np.exp(expon)) / D.sum()
 
         # 加权预测结果
         finalPredictClass += alpha * bestPredictValue
-        print "加权预测结果:", finalPredictClass
+        print "加权预测结果:", finalPredictClass.T
         # 加权后的预测结果错误的数目
         weightedErrors = np.multiply(np.sign(finalPredictClass) != trainClasses.T,
                                      np.ones((m, 1)))

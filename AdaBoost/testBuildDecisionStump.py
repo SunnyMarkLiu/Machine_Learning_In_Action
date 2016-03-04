@@ -9,7 +9,7 @@ import adaboost
 import numpy as np
 
 dataMatrix, classLabels = adaboost.loadSimpData()
-D = np.matrix(np.ones((5, 1)) / 5)
+# D = np.matrix(np.ones((5, 1)) / 5)
 bestDecisionStumps = adaboost.adaboostTrainDecisionStump(dataMatrix, classLabels, 9)
 print bestDecisionStumps
 # bestDecisionStump, minWeightedError, bestPredictValue = \
