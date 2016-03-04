@@ -149,3 +149,41 @@ def adaboostTrainDecisionStump(trainDataMatrix, trainClasses, iteratorCount=40):
             break
 
     return bestDecisionStumps
+
+
+def adaboostClassify(testDataMatrix, bestDecisionStumps):
+    """
+    adaboost算法的分类函数
+    :param testDataMatrix: 测试的数据集
+    :param bestDecisionStumps: 训练adaboost算法获得的多个决策树策略
+    :return:
+    """
+    testDataMatrix = np.matrix(testDataMatrix)
+    m = np.shape(testDataMatrix)[0]
+    weightedForecastClasses = np.matrix(np.zeros((m, 1)))
+    for i in range(len(bestDecisionStumps)):    # 用每个决策树算法测试数据
+        forecastClasses = simpleStumpClassify(testDataMatrix,
+                                              bestDecisionStumps[i]['diem'],
+                                              bestDecisionStumps[i]['threshValue'],
+                                              bestDecisionStumps[i]['sepOperator'])
+        # 计算加权后的类别
+        weightedForecastClasses += bestDecisionStumps[i]['alpha'] * forecastClasses
+        print weightedForecastClasses
+
+    confidence = calConfidence(weightedForecastClasses)
+    return weightedForecastClasses, confidence
+
+
+def calConfidence(weightedForecastClasses):
+    """
+    由预测的权重类别，计算分类的把握
+    :param weightedForecastClasses: 预测的权重类别
+    :return:
+    """
+    m = np.shape(weightedForecastClasses)[0]
+    # confidence = np.matrix(np.zeros(np.shape((m, 1))))
+    confidence = 1 / (1+np.exp(-1*weightedForecastClasses))
+    for i in range(0, len(confidence)):
+        if confidence[i] < 0.5:
+            confidence[i] = 1 - confidence[i]
+    return confidence

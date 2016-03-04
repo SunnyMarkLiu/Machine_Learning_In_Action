@@ -8,15 +8,16 @@
 import adaboost
 import numpy as np
 
+# 训练算法
 dataMatrix, classLabels = adaboost.loadSimpData()
-# D = np.matrix(np.ones((5, 1)) / 5)
 bestDecisionStumps = adaboost.adaboostTrainDecisionStump(dataMatrix, classLabels, 9)
 print bestDecisionStumps
-# bestDecisionStump, minWeightedError, bestPredictValue = \
-#     adaboost.buildDecisionStump(dataMatrix, classLabels, D)
-#
-# print '---------------------'
-# print classLabels
-# print bestDecisionStump
-# print bestPredictValue
-# print minWeightedError
+
+print "-------测试算法-------"
+testDatas = [[0, 0], [5, 0]]
+weightedForecastClasses, confidence = \
+    adaboost.adaboostClassify(testDatas, bestDecisionStumps)
+
+print "预测的结果及对应的分类把握："
+print np.sign(weightedForecastClasses).T
+print confidence.T
