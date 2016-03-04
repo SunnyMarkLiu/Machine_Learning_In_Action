@@ -176,13 +176,11 @@ def adaboostClassify(testDataMatrix, bestDecisionStumps):
 
 def calConfidence(weightedForecastClasses):
     """
-    由预测的权重类别，计算分类的把握
+    由预测的权重类别，计算分类的把握，计算Sigmoid函数值
     :param weightedForecastClasses: 预测的权重类别
     :return:
     """
-    m = np.shape(weightedForecastClasses)[0]
-    # confidence = np.matrix(np.zeros(np.shape((m, 1))))
-    confidence = 1 / (1+np.exp(-1*weightedForecastClasses))
+    confidence = 1 / (1 + np.exp(-1 * weightedForecastClasses))
     for i in range(0, len(confidence)):
         if confidence[i] < 0.5:
             confidence[i] = 1 - confidence[i]
