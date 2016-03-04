@@ -61,8 +61,11 @@ def buildDecisionStump(trainDataMatrix, trainClasses, D):
     # 对数据集的所有样本的特征进行遍历，以便寻找最佳分类的特征
     for diem in range(n):
         # 计算训练数据集在该特征的最大值和最小值的差别，以及每次的步长
-        valueMin = trainDataMatrix[:, diem].min()
-        valueMax = trainDataMatrix[:, diem].max()
+        featureDatas = trainDataMatrix[:, diem]
+        print "特征数据:", diem, ":", len(featureDatas)
+        print featureDatas
+        valueMin = featureDatas.min()
+        valueMax = featureDatas.max()
         stepSize = (valueMax - valueMin) / stepsNum
         # 对该特征的min-max之间，以stepSize步进
         for j in range(-1, stepsNum + 1):
