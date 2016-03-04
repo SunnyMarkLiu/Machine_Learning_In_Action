@@ -9,7 +9,7 @@
 * [LogisticRegression：Done](https://github.com/SunnyMarkLiu/Machine_Learning_In_Action_Algorithms/tree/master/LogisticRegression)
 * [NaiveBayesian：Done](https://github.com/SunnyMarkLiu/Machine_Learning_In_Action_Algorithms/tree/master/NaiveBayesian)
 * [SupportVectorMachines:Done](https://github.com/SunnyMarkLiu/Machine_Learning_In_Action_Algorithms/tree/master/SupportVectorMachines)
-* [AdaBoost](https://github.com/SunnyMarkLiu/Machine_Learning_In_Action_Algorithms/tree/master/SupportVectorMachines)
+* [AdaBoost：Done](https://github.com/SunnyMarkLiu/Machine_Learning_In_Action_Algorithms/tree/master/AdaBoost)
 
 ## License
 Copyright SunnyMarkLiu
