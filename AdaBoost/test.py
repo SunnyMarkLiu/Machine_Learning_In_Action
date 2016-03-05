@@ -26,6 +26,7 @@ def loadDataSet(fileName):
         datasArr.append(floatdatas[:-1])
         labelsArr.append(int(floatdatas[-1]))
 
+    frTrain.close()
     return datasArr, labelsArr
 
 
