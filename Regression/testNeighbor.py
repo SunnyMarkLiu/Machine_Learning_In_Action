@@ -29,9 +29,9 @@ sortedFeatures, sortedResult = sortDataSet(diem, dataSet)
 
 predictValues = []
 for i in range(0, len(testDatas)):
-    predictValue = locallyWeightedRegressionNeighbor(testDatas[i], diem, sortedFeatures, sortedResult, 0.4)
+    predictValue = locallyWeightedRegressionNeighbor(testDatas[i], diem, sortedFeatures, sortedResult, 0.3)
     predictValues.append(float(predictValue))
-    print "实际结果：", valuessArr[i], ",预测结果：", predictValue
+    print "实际结果：", valuessArr[i], ",预测结果：", float(predictValue)
 
 error = calError(predictValues, valuessArr)
 print error
