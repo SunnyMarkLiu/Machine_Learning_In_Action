@@ -55,6 +55,8 @@ def testLocallyWeightedRegression():
     # 绘制回归的曲线
     # 先对测试数据进行排序
     sortedIndexs = xMat[:, 1].argsort(0)
+    print "sortedIndexs:"
+    print sortedIndexs
     sortedMat = xMat[sortedIndexs.flatten().A[0]]
     plt.plot(sortedMat[:, 1], predictValues[sortedIndexs], c='red', linewidth=2)
     plt.show()
@@ -63,4 +65,5 @@ def testLocallyWeightedRegression():
     print correlationCoefficients
 
 if __name__ == '__main__':
+    # testStandardRegression()
     testLocallyWeightedRegression()
