@@ -67,18 +67,18 @@ def standardRegression(datasArr, valuessArr):
     return ws
 
 
-def locallyWeightedRegression(testPoint, datasArr, valuessArr, k=1):
+def locallyWeightedRegression(testPoint, datasArr, valuesArr, k=1):
     """
     局部加权线性回归
     :param testPoint: 测试的数据点
     :param datasArr: 样本数据
-    :param valuessArr: 样本数据的结果
+    :param valuesArr: 样本数据的结果
     :param k: 控制权重下降的速度，k越小下降速度越快
     :return:
     """
     # 保证数据为numpy矩阵
     xMat = np.matrix(datasArr)
-    valueMat = np.matrix(valuessArr).T
+    valueMat = np.matrix(valuesArr).T
 
     # 为每个样本舒适化一个权重
     m = np.shape(xMat)[0]
@@ -104,6 +104,10 @@ def locallyWeightedRegression(testPoint, datasArr, valuessArr, k=1):
     return predictValue
 
 
+# -------------------------------------#
+# 以下三个函数是改进版的局部加权线性规划的算法 #
+# -------------------------------------#
+
 def chooseBestFeatureAxisToSort(dataSet):
     """
     获取最佳排序的参考feature
@@ -118,18 +122,18 @@ def chooseBestFeatureAxisToSort(dataSet):
     #     featureSet.append(dataSet[i][:-1])
     #     resultsSet.append(dataSet[i][-1])
 
-    for i in range(0, n-1):
-        randomIndex = int(random.uniform(0, m-1))
+    for i in range(0, n - 1):
+        randomIndex = int(random.uniform(0, m - 1))
         featureSet.append(dataSet[randomIndex][:-1])
         resultsSet.append(dataSet[randomIndex][-1])
 
     featureMat = np.multiply(np.matrix(featureSet), 10)
     resultsMat = np.matrix(resultsSet).T
-    print featureMat
+    # print featureMat
     if np.linalg.det(featureMat) == 0.0:  # 如果xTx矩阵的行列式为0,则不存在逆矩阵
         print "featureMat矩阵的行列式为0,则不存在逆矩阵!"
     Wmn = featureMat.I * resultsMat
-    diem = np.abs(Wmn).argmax()     # 应该将Wmn取绝对值，再取最大值
+    diem = np.abs(Wmn).argmax()  # 应该将Wmn取绝对值，再取最大值
     return diem
 
 
@@ -202,3 +206,25 @@ def locallyWeightedRegressionNeighbor(testPoint, diem, sortedFeatures, sortedRes
     # print ws
     predictValue = testPoint * ws
     return predictValue
+
+
+# -------------------------------------#
+# 以下函数是岭回归算法                 #
+# -------------------------------------#
+
+def ridgeRegression(datasMat, valuesMat, lamb=0.2):
+    """
+    岭回归，求系数矩阵W
+    :param datasMat:
+    :param valuesMat: 列向量
+    :param lamb: 控制惩罚项的系数
+    :return:
+    """
+    # W = (xTx)^(-1)*xTy
+    xTx = datasMat.T * datasMat
+    denom = xTx + lamb * np.eye(np.shape(datasMat)[1])
+    if np.linalg.det(denom) == 0.0:  # 如果xTx矩阵的行列式为0,则不存在逆矩阵
+        print "denom矩阵的行列式为0,则不存在逆矩阵!"
+
+    ws = denom.I * (datasMat.T * valuesMat)
+    return ws

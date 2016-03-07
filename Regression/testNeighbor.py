@@ -34,4 +34,4 @@ for i in range(0, len(testDatas)):
     print "实际结果：", valuessArr[i], ",预测结果：", float(predictValue)
 
 error = calError(predictValues, valuessArr)
-print error
+print "均方误差为：", error

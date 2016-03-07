@@ -35,7 +35,7 @@ def testStandardRegression():
     print np.shape(yHat), ":", np.shape(valueMat)
     # 相关性系数
     correlationCoefficients = np.corrcoef(yHat.T, valueMat)
-    print correlationCoefficients
+    print "相关系数为", correlationCoefficients
 
 
 def testLocallyWeightedRegression():
@@ -62,7 +62,8 @@ def testLocallyWeightedRegression():
     plt.show()
     # 计算预测值和实际值的相关性
     correlationCoefficients = np.corrcoef(predictValues, valueMat)
-    print correlationCoefficients
+    print "相关系数为", correlationCoefficients
+
 
 if __name__ == '__main__':
     # testStandardRegression()
