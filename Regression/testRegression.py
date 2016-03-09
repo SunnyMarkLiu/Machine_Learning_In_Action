@@ -65,6 +65,36 @@ def testLocallyWeightedRegression():
     print "相关系数为", correlationCoefficients
 
 
+def testLocallyWeightedRegressionNeighbor():
+    dataSet = loadAllDataSet('datasets/ex0.txt')
+    testDatas, valuessArr = loadDataSet('datasets/ex0.txt')
+    diem = chooseBestFeatureAxisToSort(dataSet)
+    sortedFeatures, sortedResult = sortDataSet(diem, dataSet)
+    m = np.shape(testDatas)[0]
+    predictValues = np.zeros(m)
+    for i in range(0, m):
+        predictValue = locallyWeightedRegressionNeighbor(testDatas[i], diem, sortedFeatures, sortedResult, 0.01)
+        predictValues[i] = float(predictValue)
+
+    # 绘制原始数据
+    xMat = np.matrix(testDatas)
+    valueMat = np.matrix(valuessArr)
+    plt.figure(figsize=(10, 10), facecolor="white")
+    plt.subplot(111)
+    plt.scatter(xMat[:, 1].flatten().A[0], valueMat.T.flatten().A[0])
+    # 绘制回归的曲线
+    # 先对测试数据进行排序
+    sortedIndexs = xMat[:, 1].argsort(0)
+    print "sortedIndexs:"
+    print sortedIndexs
+    sortedMat = xMat[sortedIndexs.flatten().A[0]]
+    plt.plot(sortedMat[:, 1], predictValues[sortedIndexs], c='red', linewidth=2)
+    plt.show()
+    # 计算预测值和实际值的相关性
+    correlationCoefficients = np.corrcoef(predictValues, valueMat)
+    print "相关系数为", correlationCoefficients
+
 if __name__ == '__main__':
     # testStandardRegression()
-    testLocallyWeightedRegression()
+    # testLocallyWeightedRegression()
+    testLocallyWeightedRegressionNeighbor()
