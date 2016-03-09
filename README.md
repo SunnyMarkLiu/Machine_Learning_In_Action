@@ -10,6 +10,7 @@
 * [NaiveBayesian：Done](https://github.com/SunnyMarkLiu/Machine_Learning_In_Action_Algorithms/tree/master/NaiveBayesian)
 * [SupportVectorMachines:Done](https://github.com/SunnyMarkLiu/Machine_Learning_In_Action_Algorithms/tree/master/SupportVectorMachines)
 * [AdaBoost：Done](https://github.com/SunnyMarkLiu/Machine_Learning_In_Action_Algorithms/tree/master/AdaBoost)
+* [Regression：Done](https://github.com/SunnyMarkLiu/Machine_Learning_In_Action_Algorithms/tree/master/Regression)
 
 ## License
 Copyright SunnyMarkLiu
