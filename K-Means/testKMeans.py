@@ -27,7 +27,6 @@ yPoint_2 = []
 xPoint_3 = []
 yPoint_3 = []
 for i in range(m):
-    print clusterAssment[i, 0]
     if int(clusterAssment[i, 0]) == 0:
         xPoint_0.append(dataMat[i, 0])
         yPoint_0.append(dataMat[i, 1])
@@ -43,7 +42,9 @@ for i in range(m):
 
 plt.figure(figsize=(10, 10), facecolor="white")
 plt.subplot(211)
-plt.scatter(dataMat[:, 0], dataMat[:, 1], s=160, c='blue', marker='o')
+xPoints = dataMat[:, 0].flatten().A[0]
+yPoints = dataMat[:, 1].flatten().A[0]
+plt.scatter(xPoints, yPoints, s=160, c='blue', marker='o')
 plt.subplot(212)
 plt.scatter(xPoint_0, yPoint_0, s=160, c='blue', marker='o')
 plt.scatter(xPoint_1, yPoint_1, s=160, c='red', marker='o')
