@@ -9,10 +9,11 @@ import numpy as np
 import kMeans
 import matplotlib.pyplot as plt
 
-dataArr = kMeans.loadDataSet('datasets/testSet.txt')
+dataArr = kMeans.loadDataSet('datasets/testSet2.txt')
 dataMat = np.matrix(dataArr)
-k = 4
-centroids, clusterAssment = kMeans.kMeans(dataMat, k)
+k = 3
+centroids, clusterAssment = kMeans.biKmeans(dataMat, k)
+# centroids, clusterAssment = kMeans.kMeans(dataMat, k)
 
 # 计算原始数据加上中心数据，将数据分离
 m = np.shape(dataMat)[0]

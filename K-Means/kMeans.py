@@ -97,3 +97,43 @@ def kMeans(dataSet, k, distMeasure=calcEuclideanDistance,
             ptsInClust = dataSet[nonZeroIndex]  # 获取所有在同一cluster的数据
             centroids[cent, :] = np.mean(ptsInClust, axis=0)  # 在列轴计算平均值
     return centroids, clusterAssment
+
+
+def biKmeans(dataSet, k, distMeas=calcEuclideanDistance):
+    """
+    二分K-均值算法
+    :param dataSet:
+    :param k:
+    :param distMeas:
+    :return:
+    """
+
+    m = np.shape(dataSet)[0]
+    clusterAssment = np.mat(np.zeros((m, 2)))
+    centroid0 = np.mean(dataSet, axis=0).tolist()[0]
+    centList = [centroid0]  # create a list with one centroid
+    for j in range(m):  # calc initial Error
+        clusterAssment[j, 1] = distMeas(np.mat(centroid0), dataSet[j, :]) ** 2
+    while len(centList) < k:
+        lowestSSE = np.inf
+        for i in range(len(centList)):
+            # get the data points currently in cluster i
+            ptsInCurrCluster = dataSet[np.nonzero(clusterAssment[:, 0].A == i)[0], :]
+            centroidMat, splitClustAss = kMeans(ptsInCurrCluster, 2, distMeas)
+            sseSplit = sum(splitClustAss[:, 1])  # compare the SSE to the currrent minimum
+            sseNotSplit = sum(clusterAssment[np.nonzero(clusterAssment[:, 0].A != i)[0], 1])
+            print "sseSplit, and notSplit: ", sseSplit, sseNotSplit
+            if (sseSplit + sseNotSplit) < lowestSSE:
+                bestCentToSplit = i
+                bestNewCents = centroidMat
+                bestClustAss = splitClustAss.copy()
+                lowestSSE = sseSplit + sseNotSplit
+        bestClustAss[np.nonzero(bestClustAss[:, 0].A == 1)[0], 0] = len(centList)  # change 1 to 3,4, or whatever
+        bestClustAss[np.nonzero(bestClustAss[:, 0].A == 0)[0], 0] = bestCentToSplit
+        print 'the bestCentToSplit is: ', bestCentToSplit
+        print 'the len of bestClustAss is: ', len(bestClustAss)
+        centList[bestCentToSplit] = bestNewCents[0, :].tolist()[0]  # replace a centroid with two best centroids
+        centList.append(bestNewCents[1, :].tolist()[0])
+        # reassign new clusters, and SSE
+        clusterAssment[np.nonzero(clusterAssment[:, 0].A == bestCentToSplit)[0], :] = bestClustAss
+    return np.mat(centList), clusterAssment
