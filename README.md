@@ -4,13 +4,14 @@
 《Machine Learning In Action》Algorithms code by Python
 
 ## Contents
-* [K-NearestNeighbour：Done](https://github.com/SunnyMarkLiu/Machine_Learning_In_Action_Algorithms/tree/master/K-NearestNeighbour)
-* [DecisionTree：Done](https://github.com/SunnyMarkLiu/Machine_Learning_In_Action_Algorithms/tree/master/DecisionTree)
-* [LogisticRegression：Done](https://github.com/SunnyMarkLiu/Machine_Learning_In_Action_Algorithms/tree/master/LogisticRegression)
-* [NaiveBayesian：Done](https://github.com/SunnyMarkLiu/Machine_Learning_In_Action_Algorithms/tree/master/NaiveBayesian)
-* [SupportVectorMachines:Done](https://github.com/SunnyMarkLiu/Machine_Learning_In_Action_Algorithms/tree/master/SupportVectorMachines)
-* [AdaBoost：Done](https://github.com/SunnyMarkLiu/Machine_Learning_In_Action_Algorithms/tree/master/AdaBoost)
-* [Regression：Done](https://github.com/SunnyMarkLiu/Machine_Learning_In_Action_Algorithms/tree/master/Regression)
+* [K-NearestNeighbour](https://github.com/SunnyMarkLiu/Machine_Learning_In_Action_Algorithms/tree/master/K-NearestNeighbour)
+* [DecisionTree](https://github.com/SunnyMarkLiu/Machine_Learning_In_Action_Algorithms/tree/master/DecisionTree)
+* [LogisticRegression](https://github.com/SunnyMarkLiu/Machine_Learning_In_Action_Algorithms/tree/master/LogisticRegression)
+* [NaiveBayesian](https://github.com/SunnyMarkLiu/Machine_Learning_In_Action_Algorithms/tree/master/NaiveBayesian)
+* [SupportVectorMachines](https://github.com/SunnyMarkLiu/Machine_Learning_In_Action_Algorithms/tree/master/SupportVectorMachines)
+* [AdaBoost](https://github.com/SunnyMarkLiu/Machine_Learning_In_Action_Algorithms/tree/master/AdaBoost)
+* [Regression](https://github.com/SunnyMarkLiu/Machine_Learning_In_Action_Algorithms/tree/master/Regression)
+* [K-Means](https://github.com/SunnyMarkLiu/Machine_Learning_In_Action_Algorithms/tree/master/K-Means)
 
 ## License
 Copyright SunnyMarkLiu
