@@ -10,3 +10,4 @@ arr = np.loadtxt('testSet.txt', delimiter='\t')
 print arr
 print np.shape(arr)
 print type(arr[0][0])
+np.savetxt('savearray.txt', arr, delimiter='\t')
