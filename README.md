@@ -1,7 +1,7 @@
-# Machine Learning Algorithms In Action
+# Machine Learning In Action
 ![design pattern](http://s.qdcdn.com/cl/10190280,800,450.jpg)
 
-《Machine Learning In Action》Algorithms code by Python
+Machine Learning algorithms code by Python from scratch
 
 ## Contents
 * [x] [K-NearestNeighbour](https://github.com/SunnyMarkLiu/Machine_Learning_In_Action_Algorithms/tree/master/K-NearestNeighbour)
@@ -12,6 +12,7 @@
 * [x] [AdaBoost](https://github.com/SunnyMarkLiu/Machine_Learning_In_Action_Algorithms/tree/master/AdaBoost)
 * [x] [Regression](https://github.com/SunnyMarkLiu/Machine_Learning_In_Action_Algorithms/tree/master/Regression)
 * [x] [K-Means](https://github.com/SunnyMarkLiu/Machine_Learning_In_Action_Algorithms/tree/master/K-Means)
+* [ ] Regression Tree
 * [ ] Random Forests
 * [ ] Gradient-Boosted Trees (GBTs)
 
