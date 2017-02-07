@@ -13,9 +13,6 @@ Machine Learning algorithms code by Python from scratch
 * [x] [AdaBoost](https://github.com/SunnyMarkLiu/Machine_Learning_In_Action_Algorithms/tree/master/AdaBoost)
 * [x] [Regression](https://github.com/SunnyMarkLiu/Machine_Learning_In_Action_Algorithms/tree/master/Regression)
 * [x] [K-Means](https://github.com/SunnyMarkLiu/Machine_Learning_In_Action_Algorithms/tree/master/K-Means)
-* [ ] Regression Tree
-* [ ] Random Forests
-* [ ] Gradient-Boosted Trees (GBTs)
 
 ## License
 Copyright SunnyMarkLiu
@@ -31,4 +28,3 @@ distributed under the License is distributed on an "AS IS" BASIS,
 WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 See the License for the specific language governing permissions and
 limitations under the License.
-
